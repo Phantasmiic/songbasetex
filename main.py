@@ -20,7 +20,6 @@ def intake_song_general(filepath, songs):
     ids = [] # output, string of ids
 
     # all these have been stripped, will not match the original string
-    list_of_lyrics = ls.list_of_lyrics(songs)
     list_of_titles = ls.list_of_titles(songs)
 
     id_to_title = ls.id_to_title(songs)

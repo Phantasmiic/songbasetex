@@ -10,6 +10,7 @@ def import_json(filepath):
     with open(json_file_path, 'r') as file:
         data = json.load(file)
 
+    
     return data['songs']
 
 def list_of_lyrics(songs):
