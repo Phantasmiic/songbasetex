@@ -11,9 +11,6 @@ def return_best_match(query, list_of_lyrics):
     print("Similarity score:", score)
     print(f"match {match}, score {score}")
 
-
-
-
 def test():
     db = ls.import_json('songs.json')
     songs = ls.list_of_lyrics(db)

@@ -15,9 +15,11 @@ def import_json(filepath):
 def list_of_lyrics(songs):
     output = []
     for s in songs:
-        output.append(s['lyrics'])
+        # combine title and lyrics for better fuzzy searching results ('for her' caused problems)
+        output.append(s["title"] +  " " + s['lyrics'])
 
     return output
+
 
 def search_json_exact(data, field, value):  
     result = next((item for item in data if item[field] == value), None)
