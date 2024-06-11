@@ -89,6 +89,11 @@ def insert_verse_spacing(text):
     replacement = r'\n\\endverse\n\\beginverse\n'  # Inserts the character before the matched bracket
     return re.sub(pattern, replacement, text)
 
+def delete_newspace_after_cap(text):
+    
+    return(re.sub(r'(Capo \d+)\n\n', r'\1\n', text))
+
+
 def main():
     # command line arguments 
     demanded_songs = sys.argv[1] #song list
@@ -113,7 +118,9 @@ def main():
             lyrics = song_obj["lyrics"]
             lyrics = delete_hashtag(lyrics)
             lyrics = insert_backslash_before_opening_bracket(lyrics)
+            lyrics = delete_newspace_after_cap(lyrics)
             lyrics = insert_verse_spacing(lyrics)
+
             lyrics = "\\beginverse\n" + lyrics + "\n\\endverse"
 
             string_output += "\\beginsong{}\n"
