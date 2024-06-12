@@ -2,10 +2,14 @@
 % Example based on documentation for the songs project:
 % http://songs.sourceforge.net/
 %
-\documentclass{article}
-\usepackage[chorded]{songs}
 
-\usepackage[a4paper,left=0.5in, right=0.5in, top=1in, bottom=1in,footskip=0.0in]{geometry}
+
+\documentclass{article}
+\usepackage{enumitem}
+\usepackage{fancyhdr} %for page number
+
+\usepackage[chorded]{songs}
+\usepackage[a4paper,left=1in, right=1in, top=0.5in, bottom=0.5in,footskip=0.0in]{geometry}
 
 \noversenumbers
 \renewcommand{\printchord}[1]{\rmfamily\bf#1}
@@ -13,18 +17,33 @@
 \setlength{\sbarheight}{0pt} %delete line in title 
 \versesep=10pt plus 2pt minus 2pt %distance between verses
 \columnsep=0cm %distance between columns
-\parindent.0cm 
+\parindent.1cm 
 \renewcommand\colbotglue{0pt plus 1fill minus 0pt} %change bottom margin distance
 \renewcommand{\clineparams}{
   \baselineskip=12pt
   \lineskiplimit=1pt
   \lineskip=1pt
 } % space out chord from lyrics
-\songpos{1}
+\songpos{0}
+
+\setlength\cbarwidth{15pt} % indent for chorus
+
+%page number offset
+\renewcommand{\thepage}{S\arabic{page}}
+%\setcounter{page}{5}
 
 
 \begin{document}
-\songsection{Hymns}
+
+\section*{Hymn Index}
+\begin{itemize}[noitemsep]
+
+#insert_index
+
+\end{itemize}
+\pagebreak
+
+\songsection{}
 
 \begin{songs}{}
 
