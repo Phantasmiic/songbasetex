@@ -5,6 +5,7 @@ import re
 # custom imrpots
 import loadSongs as ls
 import search
+from collections import Counter
 
 
 # this function can read lines of either song ID or song name
@@ -61,12 +62,14 @@ def intake_song_general(filepath, songs):
     print()
     return ids, s_count, f_count
 
-def insert_text_into_file(template_file, output_file, body):
+def insert_text_into_file(template_file, output_file, index, body):
     with open(template_file, 'r') as tf:
-
+        output=""
         template_content = tf.read()
-        output = template_content.replace('#insert_here', body)
-
+        if index:
+            output = template_content.replace('#insert_index', index)
+        if body:
+            output = output.replace('#insert_here', body)
         with open(output_file, 'w+') as wf:
             wf.write(output)
         print("output generated")
@@ -74,7 +77,8 @@ def insert_text_into_file(template_file, output_file, body):
     tf.close()
 
 def delete_hashtag(text):
-    pattern= r'#'
+    #pattern= r'#'
+    pattern = r'#(?![^\[]*\])' # do  not remove # in brackets (chords, such as F#m)
     return re.sub(pattern, '', text)
 
 def insert_backslash_before_opening_bracket(text):
@@ -93,6 +97,16 @@ def delete_newspace_after_cap(text):
     
     return(re.sub(r'(Capo \d+)\n\n', r'\1\n', text))
 
+def insert_beginchorus(text):
+    # Define the regex pattern to match \n\n
+    pattern = r'\n\n  '
+    # Define the replacement string
+    replacement = r'\n\n \beginchorus'
+    # Use re.sub to replace every match of the pattern with the replacement
+    result = re.sub(pattern, replacement, text)
+    return result
+
+
 
 def main():
     # command line arguments 
@@ -104,17 +118,26 @@ def main():
     # read in song database (json)
     song_db = ls.import_json(songs_file)
 
+    final_file_output_name = "output_with_index.tex" #\item For her - 1
+    index_output=""
     string_output = ""
 
     list_ids, s_count, f_count = intake_song_general(demanded_songs, song_db)
     count = 0
 
+    index = {}
     # process song data 
+    if len(list_ids) != len(set(list_ids)):
+        print("DUPLICATE SONGS")
+        cnt = Counter(list_ids)
+        print([k for k, v in cnt.items() if v > 1])
     for id in list_ids:
         count += 1
         song_obj = ls.search_json_exact(song_db, "id", id) # should exist for sure, validaiton is already done
         if (song_obj is not None):
             print(f"{count} title: {song_obj['title']}, id: {song_obj['id']}")
+            index[song_obj['title']] = count
+                        
             lyrics = song_obj["lyrics"]
             lyrics = delete_hashtag(lyrics)
             lyrics = insert_backslash_before_opening_bracket(lyrics)
@@ -130,8 +153,14 @@ def main():
         else: #should not happen
             print(f"song_obj {id} not found")
 
-    insert_text_into_file(template_file, output_file, string_output) #generate file
+    sorted_index = dict(sorted(index.items()))
+    for key in sorted_index:
+        index_output += f"\\item {key} --- {sorted_index[key]}\n"
 
+
+    insert_text_into_file(template_file, output_file, index_output, string_output) #generate file
+    
+    #print(index_output)
     print(f"{count} songs generated. {f_count} songs failed to be found.")
 
 
