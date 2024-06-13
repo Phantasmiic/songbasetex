@@ -1437,12 +1437,12 @@
     \SB@skip\SB@dimen\relax%
     \SB@computess\SB@skip1\@plus#1%
     \SB@computess\SB@skip{-1}\@minus#1%
-    \nointerlineskip\null\nobreak%
-    \leaders\vrule\@width\cbarwidth\vskip\SB@skip%
+    %\nointerlineskip\null\nobreak% %get rid of black bar
+    %\leaders\vrule\@width\cbarwidth\vskip\SB@skip% %get rid of black bar
     \ifSB@chorustop\ifchorded\else%
       \advance\SB@skip-\SB@dimenii%
     \fi\fi%
-    \nobreak\vskip-\SB@skip%
+    %\nobreak\vskip-\SB@skip% %get rid of black bar
   \fi%
 }
 \newcommand\SB@computess[4]{%
