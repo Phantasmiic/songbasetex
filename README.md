@@ -1,6 +1,7 @@
 This program takes a list of songs as input, and generates a complete song document (pdf), for use in conferences, SSOT, etc. The source for all the song lyric and chord data is from songbase. LaTeX is used to format the documents.
 
-### Run program with:  `python3 main.py <list of songs > <database of songs> <template tex file> <output tex file>`
+### Run program with:  
+`python3 main.py <list of songs > <database of songs> <template tex file> <output tex file>`
 
 A TEX file will be produced, which you can either compile locally or with an online compiler.
 
